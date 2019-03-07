@@ -1,4 +1,4 @@
-package com.peter_haviland.site.beans;
+package dev.peterhaviland.site.beans;
 
 public class Session {
 

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="utf-8">
-<title>peter-haviland.com</title>
-</head>
+<head th:replace="fragments.html :: head(title='Home')"></head>
 <body>
-<h1>Peter Haviland</h1>
-<hr>
-<p>Welcome to my site <span th:text="${username}">unknown</span> !
-</p>
+    <nav th:replace="fragments.html :: nav"></nav>
+    <main>
+        <h1>Home</h1>
+        <p>Welcome to my site, <span th:text="${username} ?: 'stranger'"></span>.</p>
+    </main>
 </body>
 </html>

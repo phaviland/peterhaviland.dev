@@ -1,4 +1,4 @@
-package com.peter_haviland.site;
+package dev.peterhaviland.site;
 
 import org.bson.Document;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,8 +11,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
-import com.peter_haviland.site.beans.Session;
-import com.peter_haviland.site.dao.UsersDAO;
+import dev.peterhaviland.site.beans.Session;
+import dev.peterhaviland.site.dao.UsersDAO;
 
 @Configuration
 @ConfigurationProperties(prefix = "db")

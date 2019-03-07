@@ -1,4 +1,4 @@
-package com.peter_haviland.site;
+package dev.peterhaviland.site;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

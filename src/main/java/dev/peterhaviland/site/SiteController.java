@@ -2,6 +2,8 @@ package dev.peterhaviland.site;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -38,34 +40,27 @@ public class SiteController {
     }
         
     @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String loginAttempt(@RequestParam String username, @RequestParam String password, Model model) {        
-        if (!validateLogin(username, password, model))
-            return "login";
-        
-        Document account;
-        String hash;
-        if ((account = usersDAO.loginAttempt(username)) == null)
-            model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-        else if ((hash = account.getString("hash")) == null)
-            model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-        else if (!BCrypt.checkpw(password, hash))
-            model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-        else {
-            session.setId(account.getString("_id"));
-            return "redirect:/";
-        }
-        
-        return "login";        
-    }
-    
-    public boolean validateLogin(String username, String password, Model model) {
+    public String loginAttempt(@RequestParam String username, @RequestParam String password, Model model) {
         if (username == null || username.isEmpty())
             model.addAttribute("error", messageSource.getMessage("missingUsername", null, Locale.US));
         else if (password == null || password.isEmpty())
             model.addAttribute("error", messageSource.getMessage("missingPassword", null, Locale.US));
-        else
-            return true;
-        return false;
+        else {
+            Document account;
+            String hash;
+            if ((account = usersDAO.loginAttempt(username)) == null)
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+            else if ((hash = account.getString("hash")) == null)
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+            else if (!BCrypt.checkpw(password, hash))
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+            else {
+                session.setId(account.getString("_id"));
+                return "redirect:/";
+            }
+        }
+        
+        return "login";        
     }
     
     @GetMapping("/register")
@@ -75,26 +70,25 @@ public class SiteController {
     
     @RequestMapping(value="/register", method=RequestMethod.POST)
     public String registerAttempt(@RequestParam String username, @RequestParam String password, Model model) {
-        if (!validateRegistration(username, password, model))
-            return "register";
-        
-        String hash = BCrypt.hashpw(password, BCrypt.gensalt()); 
-        usersDAO.registerAttempt(username, hash);
-        session.setId(username);
-        
-        return "redirect:/";
-    }
-    
-    public boolean validateRegistration(String username, String password, Model model) {
         if (username == null || username.isEmpty())            
             model.addAttribute("error", messageSource.getMessage("missingUsername", null, Locale.US));
         else if (password == null || password.isEmpty())
             model.addAttribute("error", messageSource.getMessage("missingPassword", null, Locale.US));
         else if (usersDAO.loginAttempt(username) != null)
             model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-        else
-            return true;
-        return false;
+        else {
+            String hash = BCrypt.hashpw(password, BCrypt.gensalt()); 
+            usersDAO.registerAttempt(username, hash);
+            session.setId(username);
+            return "redirect:/";
+        }
+        return "register";
     }
-
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "index";
+    }
+    
 }

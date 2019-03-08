@@ -8,8 +8,8 @@
 <body>
     <nav th:fragment="nav">
         <h3><a href="/">Home</a></h3>
-        <h3><a href="/login">Login</a></h3>
-        <h3><a href="/register">Register</a></h3>
+        <h3><a th:href="${username} == null ? '/login' : '/logout'" th:text="${username} == null ? 'Login' : 'Logout'"></a></h3>
+        <h3 th:if="${username} == null"><a href="/register">Register</a></h3>
     </nav>        
 </body>
 </html>

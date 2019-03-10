@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head(title='Blog')"></head>
+<body>
+    <nav th:replace="fragments.html :: nav"></nav>
+    <main id="mainBody">
+        <h1>Blog</h1>
+        <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article"></article>
+    </main>
+    <nav>
+        <h3><a href="javascript:loadMorePosts()">Load More Posts</a></h3>
+    </nav>
+</body>
+</html>

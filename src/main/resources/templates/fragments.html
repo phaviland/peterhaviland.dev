@@ -2,14 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title)">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="${title}"></title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="/scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
     <nav th:fragment="nav">
         <h3><a href="/">Home</a></h3>
-        <h3><a th:href="${username} == null ? '/login' : '/logout'" th:text="${username} == null ? 'Login' : 'Logout'"></a></h3>
-        <h3 th:if="${username} == null"><a href="/register">Register</a></h3>
-    </nav>        
+        <h3><a href="/blog">Blog</a></h3>
+        <h3><a th:href="${id} == null ? '/login' : '/logout'" th:text="${id} == null ? 'Login' : 'Logout'"></a></h3>
+        <h3 th:if="${id} == null"><a href="/register">Register</a></h3>
+        <h3 th:if="${id} != null"><a href="/compose">Compose</a></h3>
+    </nav>     
+    <article th:fragment="article">
+        <header>
+            <h1><a th:href="@{'/blog/posts/'+${post.id}}" th:text="${post.subject}"></a></h1>
+            <p th:text="${post.username}"></p>
+            <p th:text="${post.date}"></p>
+        </header>
+        <p th:text="${post.body}"></p>
+    </article>   
 </body>
 </html>

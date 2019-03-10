@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head(title='Compose')"></head>
+<body>
+    <nav th:replace="fragments.html :: nav"></nav>
+    <main>
+        <h1>Compose</h1>
+        <form method="post">
+            <input type="text" name="subject" placeholder="Subject" th:value="${post != null} ? ${post.subject} : ''" required>
+            <input type="text" name="body" placeholder="Body" th:value="${post != null} ? ${post.body} : ''" required>
+            <input type="submit">
+        </form>
+        <div th:text="${message}"></div>
+    </main>
+</body>
+</html>

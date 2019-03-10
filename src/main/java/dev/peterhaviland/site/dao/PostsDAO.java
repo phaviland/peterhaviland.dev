@@ -10,8 +10,6 @@ import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mongodb.WriteResult;
-
 import dev.peterhaviland.site.beans.Post;
 
 public class PostsDAO {
@@ -34,23 +32,23 @@ public class PostsDAO {
     
     public List<Post> getMostRecentPosts(int numberOfPosts) {
         Query<Post> query = datastore.createQuery(Post.class);
-        return query.order("-id").asList(new FindOptions().limit(numberOfPosts));
+        return query.order("-_id").asList(new FindOptions().limit(numberOfPosts));
     }
     
     public List<Post> getPosts(int offset, int numberOfPosts) {
         Query<Post> query = datastore.createQuery(Post.class);
-        return query.order("-id").asList(new FindOptions().limit(numberOfPosts).skip(offset));
+        return query.order("-_id").asList(new FindOptions().limit(numberOfPosts).skip(offset));
     }
     
-    public int updatePost(Post post) {
-        Query<Post> query = datastore.createQuery(Post.class).field("id").equal(post.getId());
-        UpdateOperations<Post> updateOperations = datastore.createUpdateOperations(Post.class).set("subject", post.getSubject()).set("body", post.getBody());
+    public int updatePost(int id, String subject, String body) {
+        Query<Post> query = datastore.createQuery(Post.class).field("_id").equal(id);
+        UpdateOperations<Post> updateOperations = datastore.createUpdateOperations(Post.class).set("subject", subject).set("body", body);
         UpdateResults updateResults = datastore.update(query, updateOperations);
         return updateResults.getUpdatedCount();
     }
     
     public void deletePost(int id) {
-        Query<Post> query = datastore.createQuery(Post.class).field("id").equal(id);
+        Query<Post> query = datastore.createQuery(Post.class).field("_id").equal(id);
         datastore.delete(query);
     }
     

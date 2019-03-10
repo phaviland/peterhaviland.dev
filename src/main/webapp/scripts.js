@@ -1,5 +1,4 @@
 function loadMorePosts() {
-    console.log('hello world');
     var totalPostsOnScreen = document.getElementsByTagName("article").length;
     $.ajax({
         type: "POST",

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import dev.peterhaviland.site.beans.Post;
 import dev.peterhaviland.site.beans.User;
@@ -51,7 +53,7 @@ public class SiteController {
     }
         
     @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String loginAttempt(@RequestParam String username, @RequestParam String password, Model model) {
+    public ModelAndView loginAttempt(@RequestParam String username, @RequestParam String password, Model model) {
         if (username == null || (username = username.trim()).isEmpty())
             model.addAttribute("message", messageSource.getMessage("missingUsername", null, Locale.US));
         else if (password == null || password.isEmpty())
@@ -66,11 +68,13 @@ public class SiteController {
                 model.addAttribute("message", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
             else {
                 BeanUtils.copyProperties(userInst, user);
-                return "redirect:/";
+                RedirectView view = new RedirectView("/", true);
+                view.setExposeModelAttributes(false);
+                return new ModelAndView(view);
             }
         }
         
-        return "login";        
+        return new ModelAndView("login");        
     }
     
     @GetMapping("/register")
@@ -102,10 +106,7 @@ public class SiteController {
     
     @GetMapping("/compose")
     public String compose() {
-        if (user.getId() == null)
-            return "redirect:/";
-        else
-            return "compose";
+        return "compose";
     }
     
     @RequestMapping(value="/compose", method=RequestMethod.POST)
@@ -131,46 +132,61 @@ public class SiteController {
     }
     
     @GetMapping(value="/blog/posts/{id}")
-    public String retrievePostById(@PathVariable("id") int id, Model model) {
+    public ModelAndView retrievePostById(@PathVariable("id") int id, Model model) {
         Post post = postsDAO.getPost(id);
-        if (post == null)
-            return "redirect:/";
+        if (post == null) {
+            RedirectView view = new RedirectView("/", true);
+            view.setExposeModelAttributes(false);
+            return new ModelAndView(view);
+        }
         model.addAttribute("post", post);
-        return "post";
+        return new ModelAndView("post");
     }
     
     @GetMapping(value="/blog/posts/{id}/edit")
-    public String retrievePostByIdForEdit(@PathVariable("id") int id, Model model) {
+    public ModelAndView retrievePostByIdForEdit(@PathVariable("id") int id, Model model) {
         Post post = postsDAO.getPost(id);
-        if (post == null)
-            return "redirect:/";
+        if (post == null) {
+            RedirectView view = new RedirectView("/", true);
+            view.setExposeModelAttributes(false);
+            return new ModelAndView(view);
+        }
         model.addAttribute("post", post);
-        return "compose";
+        return new ModelAndView("compose");
     }
     
     @RequestMapping(value="/blog/posts/{id}/edit", method=RequestMethod.POST)
-    public String editPostById(@PathVariable("id") int id, @RequestParam String subject, @RequestParam String body, Model model) {
+    public ModelAndView editPostById(@PathVariable("id") int id, @RequestParam String subject, @RequestParam String body, Model model) {
         if (subject == null || (subject = subject.trim()).isEmpty())            
             model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
         else if (body == null || (body = body.trim()).isEmpty())
             model.addAttribute("message", messageSource.getMessage("missingBody", null, Locale.US));
+        else if (postsDAO.updatePost(id, subject, body) == 0)
+            model.addAttribute("message", messageSource.getMessage("editUnsuccessful", null, Locale.US));
         else {
-            Post post = new Post();
-            post.setId(id);
-            post.setSubject(subject);
-            post.setBody(body);
-            
-            int updatedCount = postsDAO.updatePost(post);
-            if (updatedCount == 0)
-                model.addAttribute("message", messageSource.getMessage("editUnsuccessful", null, Locale.US));
+            RedirectView view = new RedirectView("/blog/posts/" + id, true);
+            view.setExposeModelAttributes(false);
+            return new ModelAndView(view);
         }
-        return "redirect:/blog/posts/" + id;
+        
+        Post post = postsDAO.getPost(id);
+        if (post == null) {
+            RedirectView view = new RedirectView("/", true);
+            view.setExposeModelAttributes(false);
+            return new ModelAndView(view);
+        }
+        model.addAttribute("post", post);
+
+        return new ModelAndView("compose");
     }
     
     @GetMapping(value="/blog/posts/{id}/delete")
-    public String deletePostById(@PathVariable("id") int id, Model model) {
+    public ModelAndView deletePostById(@PathVariable("id") int id, Model model) {
         postsDAO.deletePost(id);
-        return "redirect:/blog";
+        
+        RedirectView view = new RedirectView("/blog", true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
     }
     
     @GetMapping("/blog")
@@ -186,4 +202,5 @@ public class SiteController {
         model.addAttribute("posts", posts);
         return "blog :: articles";
     }
+    
 }

@@ -28,8 +28,8 @@ public class Config implements WebMvcConfigurer  {
     }
     
     @Bean
-    public MongoClient mongoClient() {
-        return new MongoClient(new MongoClientURI(properties().getConnectionString()));
+    public MongoClient mongoClient(Properties properties) {
+        return new MongoClient(new MongoClientURI(properties.getConnectionString()));
     }
     
     @Bean

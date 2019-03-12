@@ -20,7 +20,7 @@ public class PostsDAO {
     @Autowired
     private Datastore datastore;
     
-    public void composeAttempt(Post post) {
+    public void composePost(Post post) {
         datastore.save(post);
     }
     
@@ -60,6 +60,6 @@ public class PostsDAO {
         UpdateOperations<Post> updateOperations = datastore.createUpdateOperations(Post.class).push("comments", comment);
         UpdateResults updateResults = datastore.update(query, updateOperations);
         return updateResults.getUpdatedCount();
-}
+    }
     
 }

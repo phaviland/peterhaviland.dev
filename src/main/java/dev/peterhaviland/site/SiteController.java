@@ -112,7 +112,7 @@ public class SiteController {
     }
     
     @RequestMapping(value="/compose", method=RequestMethod.POST)
-    public String composeAttempt(@RequestParam String subject, @RequestParam String body, Model model) {
+    public String composePost(@RequestParam String subject, @RequestParam String body, Model model) {
         if (subject == null || (subject = subject.trim()).isEmpty())            
             model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
         else if (body == null || (body = body.trim()).isEmpty())
@@ -126,7 +126,7 @@ public class SiteController {
             post.setBody(body);
             post.setDate(new Date());
             
-            postsDAO.composeAttempt(post);
+            postsDAO.composePost(post);
             
             model.addAttribute("message", messageSource.getMessage("writeSuccessful", null, Locale.US));
         }

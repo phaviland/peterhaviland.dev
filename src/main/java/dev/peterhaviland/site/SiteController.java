@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import dev.peterhaviland.site.beans.Comment;
 import dev.peterhaviland.site.beans.Post;
 import dev.peterhaviland.site.beans.User;
 import dev.peterhaviland.site.dao.PostsDAO;
@@ -201,6 +203,27 @@ public class SiteController {
         List<Post> posts = postsDAO.getPosts(offset, properties.getPageSize());
         model.addAttribute("posts", posts);
         return "blog :: articles";
+    }
+    
+    @RequestMapping(value="/blog/posts/{id}", method=RequestMethod.POST)
+    public ModelAndView composeComment(@PathVariable("id") int id, @RequestParam String username, @RequestParam String body, RedirectAttributes redirectAttributes) {
+        if (username == null || (username = username.trim()).isEmpty())            
+            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("missingUsername", null, Locale.US));
+        else if (body == null || (body = body.trim()).isEmpty())
+            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("missingBody", null, Locale.US));
+        else {
+            Comment comment = new Comment();
+            comment.setUsername(username);
+            comment.setDate(new Date());
+            comment.setBody(body);
+
+            if (postsDAO.composeComment(id, comment) == 0)
+                redirectAttributes.addFlashAttribute("message", messageSource.getMessage("commentUnsuccessful", null, Locale.US));
+        }
+        
+        RedirectView view = new RedirectView("/blog/posts/" + id, true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
     }
     
 }

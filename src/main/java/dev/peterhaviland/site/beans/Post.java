@@ -1,8 +1,11 @@
 package dev.peterhaviland.site.beans;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
@@ -16,6 +19,8 @@ public class Post {
     private String username;
     private String subject;
     private String body;
+    @Embedded
+    public List<Comment> comments = new ArrayList<Comment>();
     
     public Integer getId() {
         return id;
@@ -63,6 +68,14 @@ public class Post {
     
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
     
 }

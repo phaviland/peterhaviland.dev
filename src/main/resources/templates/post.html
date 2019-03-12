@@ -11,5 +11,16 @@
         <h3 th:if="${id} == ${post.userId}"><a th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a></h3>
         <h3 th:if="${id} == ${post.userId}"><a th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a></h3>
     </nav>
+    <form method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="body" placeholder="Body" required>
+        <input type="submit">
+    </form>
+    <div th:text="${message}"></div>
+    <section th:each="comment : ${post.comments}">
+        <p th:text="${comment.username}"></p>
+        <p th:text="${comment.date}"></p>
+        <p th:text="${comment.body}"></p>
+    </section>
 </body>
 </html>

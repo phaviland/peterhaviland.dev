@@ -38,9 +38,9 @@ public class PostsDAO {
         return query.order("-_id").asList(new FindOptions().limit(numberOfPosts));
     }
     
-    public List<Post> getPosts(int offset, int numberOfPosts) {
-        Query<Post> query = datastore.createQuery(Post.class);
-        return query.order("-_id").asList(new FindOptions().limit(numberOfPosts).skip(offset));
+    public List<Post> getPosts(int minArticleId, int numberOfPosts) {
+        Query<Post> query = datastore.createQuery(Post.class).field("_id").lessThan(minArticleId);
+        return query.order("-_id").asList(new FindOptions().limit(numberOfPosts));
     }
     
     public int updatePost(int id, String subject, String body) {

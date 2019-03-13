@@ -86,7 +86,9 @@ public class SiteController {
     
     @RequestMapping(value="/register", method=RequestMethod.POST)
     public String registerAttempt(@RequestParam String username, @RequestParam String password, Model model) {
-        if (username == null || (username = username.trim()).isEmpty())            
+        if (!"true".equalsIgnoreCase(properties.getAllowRegistrations()))
+            model.addAttribute("message", messageSource.getMessage("registrationsDisabled", null, Locale.US));
+        else if (username == null || (username = username.trim()).isEmpty())            
             model.addAttribute("message", messageSource.getMessage("missingUsername", null, Locale.US));
         else if (password == null || password.isEmpty())
             model.addAttribute("message", messageSource.getMessage("missingPassword", null, Locale.US));
@@ -199,12 +201,13 @@ public class SiteController {
     }
     
     @RequestMapping(value="/blog/loadMorePosts", method=RequestMethod.POST)
-    public String blogLoadMorePosts(@RequestParam int offset, Model model) {
-        List<Post> posts = postsDAO.getPosts(offset, properties.getPageSize());
+    public String blogLoadMorePosts(@RequestParam int minArticleId, Model model) {
+        List<Post> posts = postsDAO.getPosts(minArticleId, properties.getPageSize());
         model.addAttribute("posts", posts);
         return "blog :: articles";
     }
     
+    /*
     @RequestMapping(value="/blog/posts/{id}", method=RequestMethod.POST)
     public ModelAndView composeComment(@PathVariable("id") int id, @RequestParam String username, @RequestParam String body, RedirectAttributes redirectAttributes) {
         if (username == null || (username = username.trim()).isEmpty())            
@@ -225,5 +228,6 @@ public class SiteController {
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
     }
+    */
     
 }

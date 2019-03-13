@@ -7,6 +7,7 @@ public class Properties {
 
     private String connectionString;
     private Integer pageSize;
+    private String allowRegistrations;
     
     public String getConnectionString() {
         return connectionString;
@@ -22,6 +23,14 @@ public class Properties {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getAllowRegistrations() {
+        return allowRegistrations;
+    }
+
+    public void setAllowRegistrations(String allowRegistrations) {
+        this.allowRegistrations = allowRegistrations;
     }
     
 }

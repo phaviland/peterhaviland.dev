@@ -1,3 +1,0 @@
-blog.connectionString=mongodb+srv://USERNAME:PASSWORD@cluster0-mdzrd.mongodb.net/test?retryWrites=true
-blog.pageSize=3
-server.servlet.session.timeout=5m

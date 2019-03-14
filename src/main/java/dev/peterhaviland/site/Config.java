@@ -3,10 +3,13 @@ package dev.peterhaviland.site;
 import org.bson.Document;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,6 +25,9 @@ import dev.peterhaviland.site.dao.UsersDAO;
 @Configuration
 public class Config implements WebMvcConfigurer  {
     
+    @Value("${CONNECTION_STRING}")
+    private String connectionString;
+    
     @Bean
     public Properties properties() {
         return new Properties();
@@ -29,7 +35,7 @@ public class Config implements WebMvcConfigurer  {
     
     @Bean
     public MongoClient mongoClient(Properties properties) {
-        return new MongoClient(new MongoClientURI(properties.getConnectionString()));
+        return new MongoClient(new MongoClientURI(connectionString));
     }
     
     @Bean

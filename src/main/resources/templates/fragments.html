@@ -3,27 +3,49 @@
 <head th:fragment="head(title)">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
     <title th:text="${title}"></title>
+    
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="/scripts.js"></script>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/scripts.js"></script>
 </head>
 <body>
-    <nav th:fragment="nav">
-        <h3><a href="/">Home</a></h3>
-        <h3><a href="/blog">Blog</a></h3>
-        <h3><a th:href="${id} == null ? '/login' : '/logout'" th:text="${id} == null ? 'Login' : 'Logout'"></a></h3>
-        <h3 th:if="${id} == null"><a href="/register">Register</a></h3>
-        <h3 th:if="${id} != null"><a href="/compose">Compose</a></h3>
+    <nav th:fragment="nav(title)" class="navbar navbar-expand-sm navbar-light">
+        <a class="navbar-brand" href="/">PeterHaviland.dev</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+                <li th:class="${title} == 'Index' ? 'nav-item active' : 'nav-item'">
+                    <a class="nav-link" href="/">Index</a>
+                </li>
+                <li th:class="${title} == 'Blog' ? 'nav-item active' : 'nav-item'">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                <li th:class="${title} == 'Login' ? 'nav-item active' : 'nav-item'">
+                    <a class="nav-link" th:href="${id} == null ? '/login' : '/logout'" th:text="${id} == null ? 'Login' : 'Logout'"></a>
+                </li>
+                <li th:class="${title} == 'Register' ? 'nav-item active' : 'nav-item'" th:if="${id} == null">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                <li th:class="${title} == 'Compose' ? 'nav-item active' : 'nav-item'" th:if="${id} != null">
+                    <a class="nav-link" href="/compose">Compose</a>
+                </li>
+            </ul>
+        </div>
     </nav>     
     <article th:fragment="article">
         <header>
-            <h1><a th:href="@{'/blog/posts/'+${post.id}}" th:text="${post.subject}"></a></h1>
-            <p th:text="${post.username}"></p>
-            <p th:text="${post.date}"></p>
+            <h2 class="font-weight-bold"><a th:href="@{'/blog/posts/'+${post.id}}" th:text="${post.subject}"></a></h2>
+            <span class="timestamp font-italic" th:text="${post.date}"></span>
         </header>
-        <p th:text="${post.body}"></p>
+        <p class="articleBody" th:text="${post.body}" style=""></p>
     </article>   
 </body>
 </html>

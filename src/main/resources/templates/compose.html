@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments.html :: head(title='Compose')"></head>
+<head th:include="fragments.html :: head(title='Compose')"></head>
 <body>
-    <nav th:replace="fragments.html :: nav"></nav>
-    <main>
-        <h1>Compose</h1>
+    <nav th:replace="fragments.html :: nav(title='Compose')"></nav>    
+    <main class="container-fluid">
         <form method="post">
-            <input type="text" name="subject" placeholder="Subject" th:value="${post != null} ? ${post.subject} : ''" required>
-            <input type="text" name="body" placeholder="Body" th:value="${post != null} ? ${post.body} : ''" required>
-            <input type="submit">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Subject</label>
+                <input class="form-control" type="text" name="subject" placeholder="Subject" th:value="${post != null} ? ${post.subject} : ''" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Body</label>
+                <textarea class="form-control" rows="10" type="text" name="body" placeholder="Body" th:text="${post != null} ? ${post.body} : ''" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Publish</button>
         </form>
-        <div th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${message} != null" th:text="${message}"></div>
     </main>
 </body>
 </html>

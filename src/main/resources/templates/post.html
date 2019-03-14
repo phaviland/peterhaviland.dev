@@ -2,15 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head(title=${post.subject})"></head>
 <body>
-    <nav th:replace="fragments.html :: nav"></nav>
-    <main>
-        <h1>Blog Post</h1>
+    <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
+    <main class="container-fluid">
    	    <article th:replace="fragments.html :: article"></article>
+        <nav>
+            <a type="button" class="btn btn-warning" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
+            <a type="button" class="btn btn-danger" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>
+        </nav>
     </main>
-    <nav>
-        <h3 th:if="${id} == ${post.userId}"><a th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a></h3>
-        <h3 th:if="${id} == ${post.userId}"><a th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a></h3>
-    </nav>
     <!--
     <form method="post">
         <input type="text" name="username" placeholder="Username" required>

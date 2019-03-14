@@ -2,15 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head(title='Register')"></head>
 <body>
-    <nav th:replace="fragments.html :: nav"></nav>
-    <main>
-        <h1>Register</h1>
-        <form method="post">
-            <input type="text" name="username" placeholder="username" required>
-            <input type="password" name="password" placeholder="password" required>
-            <input type="submit">
+    <nav th:replace="fragments.html :: nav(title='Register')"></nav>
+    <main class="container-fluid">
+        <form method="post" class="form-group">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="sr-only" for="inlineFormInput">Username</label>
+                    <input class="form-control mb-2" type="text" name="username" placeholder="username" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="sr-only" for="inlineFormInput">Password</label>
+                    <input class="form-control" type="password" name="password" placeholder="password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
-        <div th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${message} != null" th:text="${message}"></div>
     </main>
 </body>
 </html>

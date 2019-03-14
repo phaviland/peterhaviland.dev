@@ -2,10 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head(title='Home')"></head>
 <body>
-    <nav th:replace="fragments.html :: nav"></nav>
-    <main>
-        <h1>Home</h1>
-        <p>Welcome to my site, <span th:text="${username} ?: 'stranger'"></span>.</p>
-    </main>
+    <nav th:replace="fragments.html :: nav(title='Index')"></nav>
+    <main class="container-fluid"></main>
 </body>
 </html>

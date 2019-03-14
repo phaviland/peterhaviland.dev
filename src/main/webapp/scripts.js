@@ -7,7 +7,18 @@ function loadMorePosts() {
         data: "minArticleId=" + minArticleId,
         url: "/blog/loadMorePosts",
         success: function(result) {
-            $('#mainBody').append(result);
+            $('#articles').append(result);
+			//ajaxPending = false;
         }
     });
 }
+
+/*
+var ajaxPending = false;
+$(window).scroll(function() { 
+	if (!ajaxPending && $(window).scrollTop() >= $(document).height() - $(window).height() - 50) {
+		ajaxPending = true;
+		loadMorePosts();
+	}
+});
+*/

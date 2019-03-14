@@ -2,13 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head(title='Blog')"></head>
 <body>
-    <nav th:replace="fragments.html :: nav"></nav>
-    <main id="mainBody">
-        <h1>Blog</h1>
+    <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
+    <main id="articles" class="container-fluid">
         <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article" th:id="${post.id}"></article>
     </main>
-    <nav>
-        <h3><a href="javascript:loadMorePosts()">Load More Posts</a></h3>
+    <nav class="container-fluid marginBottom">
+        <a type="button" class="btn btn-primary btn-lg btn-block" href="javascript:loadMorePosts()">Load More Posts</a>
     </nav>
 </body>
 </html>

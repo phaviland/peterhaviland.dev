@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import dev.peterhaviland.site.beans.Comment;
 import dev.peterhaviland.site.beans.Post;
 import dev.peterhaviland.site.beans.User;
 import dev.peterhaviland.site.dao.PostsDAO;
@@ -117,7 +115,7 @@ public class SiteController {
     public String composePost(@RequestParam String subject, @RequestParam String body, Model model) {
         if (subject == null || (subject = subject.trim()).isEmpty())            
             model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
-        else if (body == null || (body = body.trim()).isEmpty())
+        else if (body == null || body.isEmpty())
             model.addAttribute("message", messageSource.getMessage("missingBody", null, Locale.US));
         else {
             Post post = new Post();
@@ -127,7 +125,6 @@ public class SiteController {
             post.setSubject(subject);
             post.setBody(body);
             post.setDate(new Date());
-            
             postsDAO.composePost(post);
             
             model.addAttribute("message", messageSource.getMessage("writeSuccessful", null, Locale.US));

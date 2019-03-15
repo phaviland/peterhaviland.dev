@@ -3,7 +3,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.peterhaviland</groupId>
   <artifactId>site</artifactId>
-  <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>peterhaviland.dev</name>
   <url>https://github.com/phaviland/site</url>
@@ -31,11 +30,22 @@
       <artifactId>mongodb-driver</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.mongodb.morphia</groupId>
+      <artifactId>morphia</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
     </dependency>
   </dependencies>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
     <finalName>site</finalName>
   </build>
 </project>

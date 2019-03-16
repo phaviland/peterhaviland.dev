@@ -45,7 +45,7 @@
             <h2 class="font-weight-bold"><a th:href="@{'/blog/posts/'+${post.id}}" th:text="${post.subject}"></a></h2>
             <span class="timestamp font-italic" th:text="${post.date}"></span>
         </header>
-        <p class="articleBody" th:text="${post.body}" style=""></p>
+        <p class="articleBody" th:text="${post.body}"></p>
     </article>   
 </body>
 </html>

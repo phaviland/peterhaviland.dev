@@ -4,7 +4,7 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Compose')"></nav>    
     <main class="container-fluid">
-        <form method="post">
+        <form method="post" class="form-group">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Subject</label>
                 <input class="form-control" type="text" name="subject" placeholder="Subject" th:value="${post != null} ? ${post.subject} : ''" required>

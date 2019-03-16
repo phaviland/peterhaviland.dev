@@ -112,7 +112,7 @@ public class SiteController {
     }
     
     @RequestMapping(value="/compose", method=RequestMethod.POST)
-    public String composePost(@RequestParam String subject, @RequestParam String body, Model model) {
+    public ModelAndView composePost(@RequestParam String subject, @RequestParam String body, Model model) {
         if (subject == null || (subject = subject.trim()).isEmpty())            
             model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
         else if (body == null || body.isEmpty())
@@ -127,9 +127,11 @@ public class SiteController {
             post.setDate(new Date());
             postsDAO.composePost(post);
             
-            model.addAttribute("message", messageSource.getMessage("writeSuccessful", null, Locale.US));
+            RedirectView view = new RedirectView("/blog/posts/" + post.getId(), true);
+            view.setExposeModelAttributes(false);
+            return new ModelAndView(view);
         }
-        return "compose";
+        return new ModelAndView("compose");
     }
     
     @GetMapping(value="/blog/posts/{id}")

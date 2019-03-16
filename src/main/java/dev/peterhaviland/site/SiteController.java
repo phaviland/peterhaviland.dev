@@ -117,9 +117,11 @@ public class SiteController {
     }
     
     @GetMapping("/logout")
-    public String logout(HttpSession httpSession) {
+    public ModelAndView logout(HttpSession httpSession) {
         httpSession.invalidate();
-        return "index";
+        RedirectView view = new RedirectView("/", true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
     }
     
     @GetMapping("/compose")

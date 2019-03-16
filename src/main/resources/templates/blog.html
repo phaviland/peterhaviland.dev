@@ -7,7 +7,7 @@
         <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article" th:id="${post.id}"></article>
     </main>
     <nav class="container-fluid marginBottom">
-        <a id="loadMorePosts" type="button" class="btn btn-primary btn-lg btn-block" href="javascript:loadMorePosts()" data-container="body" data-toggle="popover" data-placement="top" data-content="There are no more posts.">Load More Posts</a>
+        <button id="loadMorePosts" type="button" class="btn btn-primary btn-lg btn-block" data-container="body" data-toggle="popover" data-placement="top" data-content="There are no more posts.">Load More Posts</button>
     </nav>
 </body>
 </html>

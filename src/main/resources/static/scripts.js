@@ -19,13 +19,16 @@ function loadMorePosts() {
             else {
                 $('#articles').append(result);
             }
-            //ajaxPending = false;
         }
     });
 }
-    
+
 $(function () {
     $('[data-toggle="popover"]').popover({trigger: "manual"})
+    
+    $("#loadMorePosts").click(function() {
+        loadMorePosts();
+    });
 })
 
 /*

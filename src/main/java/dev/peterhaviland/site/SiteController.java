@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +43,20 @@ public class SiteController {
     private MessageSource messageSource;
     @Autowired
     private Properties properties;
+    
+    @ModelAttribute
+    public void setResponseHeader(HttpServletResponse response) {
+        response.addHeader("Content-Security-Policy", "default-src 'self'; font-src 'none'; img-src 'self' data:; object-src 'none'; script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com; style-src 'self' https://stackpath.bootstrapcdn.com; frame-ancestors 'none'");
+        response.addHeader("X-Content-Type-Options", "nosniff");
+        response.addHeader("X-Frame-Options", "DENY");
+        response.addHeader("X-XSS-Protection", "1; mode=block");
+    }
+    
+    @ModelAttribute
+    public void setModel(Model model) {
+        model.addAttribute("id", user.getId());
+        model.addAttribute("username", user.getUsername());
+    }    
     
     @GetMapping("/")
     public String index(Model model) {

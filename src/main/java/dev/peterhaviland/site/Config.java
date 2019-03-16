@@ -67,11 +67,6 @@ public class Config implements WebMvcConfigurer  {
     }
     
     @Bean
-    public SessionInterceptor sessionInterceptor() {
-        return new SessionInterceptor();
-    }
-    
-    @Bean
     public SecurityInterceptor securityInterceptor() {
         return new SecurityInterceptor();
     }
@@ -84,7 +79,6 @@ public class Config implements WebMvcConfigurer  {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(sessionInterceptor());
         registry.addInterceptor(securityInterceptor()).addPathPatterns("/compose","/blog/posts/*/edit","/blog/posts/*/delete");
     }
     

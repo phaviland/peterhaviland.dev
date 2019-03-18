@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.peterhaviland</groupId>
-  <artifactId>site</artifactId>
+  <artifactId>peterhaviland.dev</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>peterhaviland.dev</name>
-  <url>https://github.com/phaviland/site</url>
+  <url>https://github.com/phaviland/peterhaviland.dev</url>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -46,6 +46,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
-    <finalName>site</finalName>
+    <finalName>peterhaviland.dev</finalName>
   </build>
 </project>

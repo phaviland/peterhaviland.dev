@@ -1,4 +1,4 @@
-package dev.peterhaviland.site.dao;
+package dev.peterhaviland.dao;
 
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.client.MongoCollection;
 
-import dev.peterhaviland.site.beans.User;
+import dev.peterhaviland.beans.User;
 
 public class UsersDAO {
 

@@ -1,4 +1,4 @@
-package dev.peterhaviland.site.dao;
+package dev.peterhaviland.dao;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import dev.peterhaviland.site.beans.Comment;
-import dev.peterhaviland.site.beans.Post;
+import dev.peterhaviland.beans.Comment;
+import dev.peterhaviland.beans.Post;
 
 public class PostsDAO {
 

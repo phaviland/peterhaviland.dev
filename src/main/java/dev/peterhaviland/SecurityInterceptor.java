@@ -1,4 +1,4 @@
-package dev.peterhaviland.site;
+package dev.peterhaviland;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import dev.peterhaviland.site.beans.User;
+import dev.peterhaviland.beans.User;
 
 public class SecurityInterceptor extends HandlerInterceptorAdapter {
     

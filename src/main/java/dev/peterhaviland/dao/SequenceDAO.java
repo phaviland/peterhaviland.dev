@@ -1,4 +1,4 @@
-package dev.peterhaviland.site.dao;
+package dev.peterhaviland.dao;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;

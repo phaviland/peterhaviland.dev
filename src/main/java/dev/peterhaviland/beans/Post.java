@@ -1,4 +1,4 @@
-package dev.peterhaviland.site.beans;
+package dev.peterhaviland.beans;
 
 import java.util.ArrayList;
 import java.util.Date;

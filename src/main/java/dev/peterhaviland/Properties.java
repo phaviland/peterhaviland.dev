@@ -1,4 +1,4 @@
-package dev.peterhaviland.site;
+package dev.peterhaviland;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

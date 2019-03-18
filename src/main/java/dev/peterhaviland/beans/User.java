@@ -1,4 +1,4 @@
-package dev.peterhaviland.site.beans;
+package dev.peterhaviland.beans;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;

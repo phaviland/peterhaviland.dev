@@ -1,4 +1,4 @@
-package dev.peterhaviland.site;
+package dev.peterhaviland;
 
 import org.bson.Document;
 import org.mongodb.morphia.Datastore;
@@ -15,10 +15,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
-import dev.peterhaviland.site.beans.User;
-import dev.peterhaviland.site.dao.PostsDAO;
-import dev.peterhaviland.site.dao.SequenceDAO;
-import dev.peterhaviland.site.dao.UsersDAO;
+
+import dev.peterhaviland.beans.User;
+import dev.peterhaviland.dao.PostsDAO;
+import dev.peterhaviland.dao.SequenceDAO;
+import dev.peterhaviland.dao.UsersDAO;
 
 @Configuration
 public class Config implements WebMvcConfigurer  {

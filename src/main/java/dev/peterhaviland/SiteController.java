@@ -1,4 +1,4 @@
-package dev.peterhaviland.site;
+package dev.peterhaviland;
 
 import java.util.Date;
 import java.util.List;
@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import dev.peterhaviland.site.beans.Post;
-import dev.peterhaviland.site.beans.User;
-import dev.peterhaviland.site.dao.PostsDAO;
-import dev.peterhaviland.site.dao.SequenceDAO;
-import dev.peterhaviland.site.dao.UsersDAO;
+import dev.peterhaviland.beans.Post;
+import dev.peterhaviland.beans.User;
+import dev.peterhaviland.dao.PostsDAO;
+import dev.peterhaviland.dao.SequenceDAO;
+import dev.peterhaviland.dao.UsersDAO;
 
 @Controller
 public class SiteController {
@@ -55,7 +55,6 @@ public class SiteController {
     @ModelAttribute
     public void setModel(Model model) {
         model.addAttribute("id", user.getId());
-        model.addAttribute("username", user.getUsername());
     }    
     
     @GetMapping("/")

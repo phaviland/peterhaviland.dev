@@ -1,40 +1,14 @@
-@media (min-width: 768px) {
+@media (min-width: 1000px) {
     .navbar-expand-sm {
-        padding-left: 50px !important;
-        padding-right: 50px !important;
-    }
-    
-    .container-fluid {
-        padding-left: 50px !important;
-        padding-right: 50px !important;
-        margin-left: 0px !important;
-    }
-}
-
-@media (min-width: 992px) {
-    .navbar-expand-sm {
-        padding-left: 100px !important;
-        padding-right: 100px !important;
-    }
-    
-    .container-fluid {
-        padding-left: 100px !important;
-        padding-right:100px !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .navbar-expand-sm {
-        width: 995px !important;
+        width: 980px !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        margin-bottom: 8px !important;
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
     
     .container-fluid {
-        width: 995px !important;
+        width: 980px !important;
         margin-left: auto !important;
         margin-right: auto !important;
         padding-left: 0px !important;
@@ -44,10 +18,10 @@
 
 .articleBody {
     margin-top: 16px;
-    margin-bottom: 72px;
+    margin-bottom: 40px;
     white-space: pre-wrap;
 }
 
-.marginBottom{
+.marginBottom {
     margin-bottom: 16px;   
 }

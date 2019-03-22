@@ -4,7 +4,7 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
     <main class="container-fluid">
-   	    <article th:replace="fragments.html :: article"></article>
+        <article th:replace="fragments.html :: article"></article>
         <nav>
             <a type="button" class="btn btn-warning" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
             <a type="button" class="btn btn-danger" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>

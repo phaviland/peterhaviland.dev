@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,9 @@ import dev.peterhaviland.beans.User;
 import dev.peterhaviland.dao.PostsDAO;
 import dev.peterhaviland.dao.SequenceDAO;
 import dev.peterhaviland.dao.UsersDAO;
+import dev.peterhaviland.forms.ComposeForm;
+import dev.peterhaviland.forms.LoginForm;
+import dev.peterhaviland.forms.RegisterForm;
 
 @Controller
 public class SiteController {
@@ -58,29 +63,25 @@ public class SiteController {
     }    
     
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         return "index";
     }
     
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(LoginForm loginForm) {
         return "login";
     }
         
     @RequestMapping(value="/login", method=RequestMethod.POST)
-    public ModelAndView loginAttempt(@RequestParam String username, @RequestParam String password, Model model) {
-        if (username == null || (username = username.trim()).isEmpty())
-            model.addAttribute("message", messageSource.getMessage("missingUsername", null, Locale.US));
-        else if (password == null || password.isEmpty())
-            model.addAttribute("message", messageSource.getMessage("missingPassword", null, Locale.US));
-        else {
+    public ModelAndView loginAttempt(@Valid LoginForm loginForm, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {
             User userInst;
-            if ((userInst = usersDAO.loginAttempt(username)) == null)
-                model.addAttribute("message", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+            if ((userInst = usersDAO.loginAttempt(loginForm.getUsername())) == null)
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
             else if (userInst.getHash() == null)
-                model.addAttribute("message", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-            else if (!BCrypt.checkpw(password, userInst.getHash()))
-                model.addAttribute("message", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
+            else if (!BCrypt.checkpw(loginForm.getPassword(), userInst.getHash()))
+                model.addAttribute("error", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
             else {
                 BeanUtils.copyProperties(userInst, user);
                 RedirectView view = new RedirectView("/", true);
@@ -88,30 +89,26 @@ public class SiteController {
                 return new ModelAndView(view);
             }
         }
-        
         return new ModelAndView("login");        
     }
     
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(RegisterForm registerForm) {
         return "register";
     }
     
     @RequestMapping(value="/register", method=RequestMethod.POST)
-    public String registerAttempt(@RequestParam String username, @RequestParam String password, Model model) {
-        if (!"true".equalsIgnoreCase(properties.getAllowRegistrations()))
-            model.addAttribute("message", messageSource.getMessage("registrationsDisabled", null, Locale.US));
-        else if (username == null || (username = username.trim()).isEmpty())            
-            model.addAttribute("message", messageSource.getMessage("missingUsername", null, Locale.US));
-        else if (password == null || password.isEmpty())
-            model.addAttribute("message", messageSource.getMessage("missingPassword", null, Locale.US));
-        else if (usersDAO.loginAttempt(username) != null)
-            model.addAttribute("message", messageSource.getMessage("invalidUsernamePassword", null, Locale.US));
-        else {
-            String hash = BCrypt.hashpw(password, BCrypt.gensalt()); 
-            usersDAO.registerAttempt(username, hash);
-            model.addAttribute("message", messageSource.getMessage("registrationSuccessful", null, Locale.US));
+    public String registerAttempt(@Valid RegisterForm registerForm, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {        
+            if (!"true".equalsIgnoreCase(properties.getAllowRegistrations()))
+                model.addAttribute("error", messageSource.getMessage("registrationsDisabled", null, Locale.US));
+            else {
+                String hash = BCrypt.hashpw(registerForm.getPassword(), BCrypt.gensalt()); 
+                usersDAO.registerAttempt(registerForm.getUsername(), hash);
+                model.addAttribute("message", messageSource.getMessage("registrationSuccessful", null, Locale.US));
+            }
         }
+        model.addAttribute(registerForm.getUsername());
         return "register";
     }
     
@@ -124,31 +121,27 @@ public class SiteController {
     }
     
     @GetMapping("/compose")
-    public String compose() {
+    public String compose(ComposeForm composeForm) {
         return "compose";
     }
     
     @RequestMapping(value="/compose", method=RequestMethod.POST)
-    public ModelAndView composePost(@RequestParam String subject, @RequestParam String body, Model model) {
-        if (subject == null || (subject = subject.trim()).isEmpty())            
-            model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
-        else if (body == null || body.isEmpty())
-            model.addAttribute("message", messageSource.getMessage("missingBody", null, Locale.US));
-        else {
-            Post post = new Post();
-            post.setId(sequenceDAO.findAndUpdateSequence());
-            post.setUserId(user.getId());
-            post.setUsername(user.getUsername());
-            post.setSubject(subject);
-            post.setBody(body);
-            post.setDate(new Date());
-            postsDAO.composePost(post);
-            
-            RedirectView view = new RedirectView("/blog/posts/" + post.getId(), true);
-            view.setExposeModelAttributes(false);
-            return new ModelAndView(view);
-        }
-        return new ModelAndView("compose");
+    public ModelAndView composePost(@Valid ComposeForm composeForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return new ModelAndView("compose");
+
+        Post post = new Post();
+        post.setId(sequenceDAO.findAndUpdateSequence());
+        post.setUserId(user.getId());
+        post.setUsername(user.getUsername());
+        post.setSubject(composeForm.getSubject());
+        post.setBody(composeForm.getBody());
+        post.setDate(new Date());
+        postsDAO.composePost(post);
+        
+        RedirectView view = new RedirectView("/blog/posts/" + post.getId(), true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
     }
     
     @GetMapping(value="/blog/posts/{id}")
@@ -164,29 +157,28 @@ public class SiteController {
     }
     
     @GetMapping(value="/blog/posts/{id}/edit")
-    public ModelAndView retrievePostByIdForEdit(@PathVariable("id") int id, Model model) {
+    public ModelAndView retrievePostByIdForEdit(@PathVariable("id") int id, ComposeForm composeForm) {
         Post post = postsDAO.getPost(id);
         if (post == null) {
             RedirectView view = new RedirectView("/", true);
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
-        model.addAttribute("post", post);
+        composeForm.setSubject(post.getSubject());
+        composeForm.setBody(post.getBody());
         return new ModelAndView("compose");
     }
     
     @RequestMapping(value="/blog/posts/{id}/edit", method=RequestMethod.POST)
-    public ModelAndView editPostById(@PathVariable("id") int id, @RequestParam String subject, @RequestParam String body, Model model) {
-        if (subject == null || (subject = subject.trim()).isEmpty())            
-            model.addAttribute("message", messageSource.getMessage("missingSubject", null, Locale.US));
-        else if (body == null || (body = body.trim()).isEmpty())
-            model.addAttribute("message", messageSource.getMessage("missingBody", null, Locale.US));
-        else if (postsDAO.updatePost(id, subject, body) == 0)
-            model.addAttribute("message", messageSource.getMessage("editUnsuccessful", null, Locale.US));
-        else {
-            RedirectView view = new RedirectView("/blog/posts/" + id, true);
-            view.setExposeModelAttributes(false);
-            return new ModelAndView(view);
+    public ModelAndView editPostById(@PathVariable("id") int id, @Valid ComposeForm composeForm, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {
+            if (postsDAO.updatePost(id, composeForm.getSubject(), composeForm.getBody()) == 0)
+                model.addAttribute("error", messageSource.getMessage("editUnsuccessful", null, Locale.US));
+            else {
+                RedirectView view = new RedirectView("/blog/posts/" + id, true);
+                view.setExposeModelAttributes(false);
+                return new ModelAndView(view);
+            }
         }
         
         Post post = postsDAO.getPost(id);
@@ -195,13 +187,13 @@ public class SiteController {
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
-        model.addAttribute("post", post);
-
+        composeForm.setSubject(post.getSubject());
+        composeForm.setBody(post.getBody());    
         return new ModelAndView("compose");
     }
     
     @GetMapping(value="/blog/posts/{id}/delete")
-    public ModelAndView deletePostById(@PathVariable("id") int id, Model model) {
+    public ModelAndView deletePostById(@PathVariable("id") int id) {
         postsDAO.deletePost(id);
         
         RedirectView view = new RedirectView("/blog", true);

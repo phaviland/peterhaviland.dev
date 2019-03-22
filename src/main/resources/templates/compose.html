@@ -4,18 +4,20 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Compose')"></nav>    
     <main class="container-fluid">
-        <form method="post" class="form-group">
+        <form method="post" class="form-group" th:object="${composeForm}">
             <div class="form-group">
-                <label for="exampleFormControlInput1">Subject</label>
-                <input class="form-control" type="text" name="subject" placeholder="Subject" th:value="${post != null} ? ${post.subject} : ''" required>
+                <label for="subjectControlInput">Subject</label>
+                <input th:class="${#fields.hasErrors('subject')} ? 'is-invalid form-control' : 'form-control'" type="text" name="subject" placeholder="Subject" th:value="*{subject}">
+                <div th:if="${#fields.hasErrors('subject')}" class="invalid-feedback" th:errors="*{subject}">invalid subject</div>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Body</label>
-                <textarea class="form-control" rows="10" type="text" name="body" placeholder="Body" th:text="${post != null} ? ${post.body} : ''" required></textarea>
+                <label for="bodyTextarea">Body</label>
+                <textarea th:class="${#fields.hasErrors('body')} ? 'is-invalid form-control' : 'form-control'" rows="10" type="text" name="body" placeholder="Body" th:text="*{body}"></textarea>
+                <div th:if="${#fields.hasErrors('body')}" class="invalid-feedback" th:errors="*{body}">invalid body</div>
             </div>
             <button type="submit" class="btn btn-primary">Publish</button>
         </form>
-        <div class="alert alert-danger" th:if="${message} != null" th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${error} != null" th:text="${error}"></div>
     </main>
 </body>
 </html>

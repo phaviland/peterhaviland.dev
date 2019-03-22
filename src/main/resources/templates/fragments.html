@@ -15,18 +15,32 @@
     <script src="/scripts.js"></script>
 </head>
 <body>
-    <nav th:fragment="nav(title)" class="navbar navbar-expand-sm navbar-light">
+    <nav th:fragment="nav(title)" class="navbar navbar-expand-sm navbar-light marginBottom">
         <a class="navbar-brand" href="/">PeterHaviland.dev</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto">
+            <ul class="navbar-nav mr-auto">
                 <li th:class="${title} == 'Index' ? 'nav-item active' : 'nav-item'">
                     <a class="nav-link" href="/">Index</a>
                 </li>
                 <li th:class="${title} == 'Blog' ? 'nav-item active' : 'nav-item'">
                     <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Pokédex</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Links</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="https://www.github.com/phaviland">GitHub</a>
+                        <a class="dropdown-item" href="https://www.linkedin.com/in/peter-haviland-a24314160/">LinkedIn</a>
+                        <a class="dropdown-item" href="https://www.hackerrank.com/phaviland">HackerRank</a>
+                    </div>
                 </li>
                 <li th:class="${title} == 'Login' ? 'nav-item active' : 'nav-item'">
                     <a class="nav-link" th:href="${id} == null ? '/login' : '/logout'" th:text="${id} == null ? 'Login' : 'Logout'"></a>

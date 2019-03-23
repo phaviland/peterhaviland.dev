@@ -17,7 +17,7 @@
                     <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
         <div class="alert alert-danger" th:if="${error} != null" th:text="${error}"></div>
         <div class="alert alert-success" th:if="${message} != null" th:text="${message}"></div>

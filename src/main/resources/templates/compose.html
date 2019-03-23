@@ -7,15 +7,15 @@
         <form method="post" class="form-group" th:object="${composeForm}">
             <div class="form-group">
                 <label for="subjectControlInput">Subject</label>
-                <input th:class="${#fields.hasErrors('subject')} ? 'is-invalid form-control' : 'form-control'" type="text" name="subject" placeholder="Subject" th:value="*{subject}">
+                <input th:class="${#fields.hasErrors('subject')} ? 'is-invalid form-control' : 'form-control'" type="text" name="subject" placeholder="Subject" th:value="*{subject}" required>
                 <div th:if="${#fields.hasErrors('subject')}" class="invalid-feedback" th:errors="*{subject}">invalid subject</div>
             </div>
             <div class="form-group">
                 <label for="bodyTextarea">Body</label>
-                <textarea th:class="${#fields.hasErrors('body')} ? 'is-invalid form-control' : 'form-control'" rows="10" type="text" name="body" placeholder="Body" th:text="*{body}"></textarea>
+                <textarea th:class="${#fields.hasErrors('body')} ? 'is-invalid form-control' : 'form-control'" rows="10" type="text" name="body" placeholder="Body" th:text="*{body}" required></textarea>
                 <div th:if="${#fields.hasErrors('body')}" class="invalid-feedback" th:errors="*{body}">invalid body</div>
             </div>
-            <button type="submit" class="btn btn-primary">Publish</button>
+            <button type="submit" class="btn btn-primary btn-block">Publish</button>
         </form>
         <div class="alert alert-danger" th:if="${error} != null" th:text="${error}"></div>
     </main>

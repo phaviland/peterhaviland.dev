@@ -6,8 +6,8 @@
     <main class="container-fluid">
         <article th:replace="fragments.html :: article"></article>
         <nav>
-            <a type="button" class="btn btn-warning" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
-            <a type="button" class="btn btn-danger" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>
+            <a class="btn btn-warning btn-block" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
+            <a class="btn btn-danger btn-block" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>
         </nav>
     </main>
     <!--

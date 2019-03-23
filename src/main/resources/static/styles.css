@@ -1,6 +1,6 @@
-@media (min-width: 1000px) {
+@media (min-width: 800px) {
     .navbar-expand-sm {
-        width: 980px !important;
+        width: 780px !important;
         margin-left: auto !important;
         margin-right: auto !important;
         padding-left: 0px !important;
@@ -8,7 +8,7 @@
     }
     
     .container-fluid {
-        width: 980px !important;
+        width: 780px !important;
         margin-left: auto !important;
         margin-right: auto !important;
         padding-left: 0px !important;

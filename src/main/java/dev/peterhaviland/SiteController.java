@@ -108,7 +108,6 @@ public class SiteController {
                 model.addAttribute("message", messageSource.getMessage("registrationSuccessful", null, Locale.US));
             }
         }
-        model.addAttribute(registerForm.getUsername());
         return "register";
     }
     
@@ -160,7 +159,7 @@ public class SiteController {
     public ModelAndView retrievePostByIdForEdit(@PathVariable("id") int id, ComposeForm composeForm) {
         Post post = postsDAO.getPost(id);
         if (post == null) {
-            RedirectView view = new RedirectView("/", true);
+            RedirectView view = new RedirectView("/blog", true);
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
@@ -180,15 +179,6 @@ public class SiteController {
                 return new ModelAndView(view);
             }
         }
-        
-        Post post = postsDAO.getPost(id);
-        if (post == null) {
-            RedirectView view = new RedirectView("/", true);
-            view.setExposeModelAttributes(false);
-            return new ModelAndView(view);
-        }
-        composeForm.setSubject(post.getSubject());
-        composeForm.setBody(post.getBody());    
         return new ModelAndView("compose");
     }
     

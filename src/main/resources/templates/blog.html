@@ -3,7 +3,7 @@
 <head th:replace="fragments.html :: head(title='Blog')"></head>
 <body>
     <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
-    <main id="articles" class="container-fluid">
+    <main id="articles" th:startingPage="${startingPage}" class="container-fluid">
         <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article" th:id="${post.id}"></article>
     </main>
     <nav class="container-fluid marginBottom">

@@ -147,7 +147,7 @@ public class SiteController {
     public ModelAndView retrievePostById(@PathVariable("id") int id, Model model) {
         Post post = postsDAO.getPost(id);
         if (post == null) {
-            RedirectView view = new RedirectView("/", true);
+            RedirectView view = new RedirectView("/blog", true);
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
@@ -195,6 +195,7 @@ public class SiteController {
     public String blog(Model model) {
         List<Post> posts = postsDAO.getMostRecentPosts(properties.getPageSize());
         model.addAttribute("posts", posts);
+        model.addAttribute("startingPage", 1);
         return "blog";
     }
     
@@ -203,6 +204,14 @@ public class SiteController {
         List<Post> posts = postsDAO.getPosts(minArticleId, properties.getPageSize());
         model.addAttribute("posts", posts);
         return "blog :: articles";
+    }
+    
+    @GetMapping("/blog/{page}")
+    public String blogAtSpecifiedPage(@PathVariable("page") int page, Model model) {
+        List<Post> posts = postsDAO.getMostRecentPosts(properties.getPageSize()*page);
+        model.addAttribute("posts", posts);
+        model.addAttribute("startingPage", page);
+        return "blog";
     }
     
     /*

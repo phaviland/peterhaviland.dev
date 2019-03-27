@@ -1,23 +1,27 @@
 var timeout;
+var page = 1;
 function loadMorePosts() {
+	
     if (timeout)
         clearTimeout(timeout);
     
     $('#loadMorePosts').popover('hide')
     var articles = document.getElementsByTagName("article");
     var minArticleId = articles.item(articles.length-1).id;
-
+    var startingPage = parseInt($("#articles").attr("startingPage"));
+    
     $.ajax({
         type: "POST",
         data: "minArticleId=" + minArticleId,
         url: "/blog/loadMorePosts",
         success: function(result) {
-            if (!$.trim(result)){
+            if (!$.trim(result)) {
                 $('#loadMorePosts').popover('show')
                 timeout = setTimeout(function(){$('#loadMorePosts').popover('hide')},1000);
             }
             else {
                 $('#articles').append(result);
+                history.replaceState(null, '', '/blog/' + (startingPage + page++));
             }
         }
     });

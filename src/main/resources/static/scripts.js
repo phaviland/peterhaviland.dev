@@ -1,23 +1,22 @@
 var timeout;
 var page = 1;
 function loadMorePosts() {
-	
     if (timeout)
         clearTimeout(timeout);
     
     $('#loadMorePosts').popover('hide')
-    var articles = document.getElementsByTagName("article");
+    var articles = document.getElementsByTagName('article');
     var minArticleId = articles.item(articles.length-1).id;
-    var startingPage = parseInt($("#articles").attr("startingPage"));
+    var startingPage = parseInt($('#articles').attr('startingPage'));
     
     $.ajax({
-        type: "POST",
-        data: "minArticleId=" + minArticleId,
-        url: "/blog/loadMorePosts",
+        type: 'POST',
+        data: 'minArticleId=' + minArticleId,
+        url: '/blog/loadMorePosts',
         success: function(result) {
             if (!$.trim(result)) {
                 $('#loadMorePosts').popover('show')
-                timeout = setTimeout(function(){$('#loadMorePosts').popover('hide')},1000);
+                timeout = setTimeout(function(){$('#loadMorePosts').popover('hide')}, 1000);
             }
             else {
                 $('#articles').append(result);
@@ -28,9 +27,9 @@ function loadMorePosts() {
 }
 
 $(function () {
-    $('[data-toggle="popover"]').popover({trigger: "manual"})
+    $('[data-toggle="popover"]').popover({trigger: 'manual'})
     
-    $("#loadMorePosts").click(function() {
+    $('#loadMorePosts').click(function() {
         loadMorePosts();
     });
 })

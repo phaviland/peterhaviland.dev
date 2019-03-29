@@ -4,12 +4,12 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
     <main class="container-fluid">
-        <article th:replace="fragments.html :: article"></article>
-        <nav>
-            <a class="btn btn-warning btn-block" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
-            <a class="btn btn-danger btn-block" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>
-        </nav>
+        <article th:include="fragments.html :: article" class="block border rounded bg-white shadow"></article>
     </main>
+    <nav class="container-fluid btn-container">
+        <a class="btn btn-warning btn-block shadow" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/edit'}">Edit</a>
+        <a class="btn btn-danger btn-block shadow" th:if="${id} == ${post.userId}" th:href="@{'/blog/posts/'+${post.id}+'/delete'}">Delete</a>
+    </nav>
     <!--
     <form method="post">
         <input type="text" name="username" placeholder="Username" required>

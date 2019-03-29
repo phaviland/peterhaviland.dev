@@ -3,11 +3,11 @@
 <head th:replace="fragments.html :: head(title='Blog')"></head>
 <body>
     <nav th:replace="fragments.html :: nav(title='Blog')"></nav>
-    <main id="articles" th:startingPage="${startingPage}" class="container-fluid">
-        <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article" th:id="${post.id}"></article>
+    <main id="articles" class="container-fluid" th:startingPage="${startingPage}">
+        <article th:fragment="articles" th:each="post : ${posts}" th:include="fragments.html :: article" th:id="${post.id}" class="block border rounded bg-white shadow"></article>
     </main>
-    <nav class="container-fluid marginBottom">
-        <button id="loadMorePosts" type="button" class="btn btn-primary btn-block" data-container="body" data-toggle="popover" data-placement="top" data-content="There are no more posts.">Load More Posts</button>
+    <nav class="container-fluid btn-container">
+        <button id="loadMorePosts" type="button" class="btn btn-primary btn-block shadow" data-container="body" data-toggle="popover" data-placement="top" data-content="There are no more posts.">Load More Posts</button>
     </nav>
 </body>
 </html>

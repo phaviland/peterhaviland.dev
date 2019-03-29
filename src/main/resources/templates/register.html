@@ -4,23 +4,26 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Register')"></nav>
     <main class="container-fluid">
-        <form method="post" class="form-group" th:object="${registerForm}">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label class="sr-only" for="inlineFormInput">Username</label>
-                    <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="text" name="username" placeholder="username" th:value="*{username}" required>
-                    <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">invalid username</div>
+        <div class="block border rounded bg-white shadow">    
+            <h2>Register</h2>
+            <form method="post" class="form-group" th:object="${registerForm}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="sr-only" for="inlineFormInput">Username</label>
+                        <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="text" name="username" placeholder="username" th:value="*{username}" required>
+                        <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">invalid username</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="sr-only" for="inlineFormInput">Password</label>
+                        <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="password" name="password" placeholder="password" required>
+                        <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <label class="sr-only" for="inlineFormInput">Password</label>
-                    <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="password" name="password" placeholder="password" required>
-                    <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
-        </form>
-        <div class="alert alert-danger" th:if="${error} != null" th:text="${error}"></div>
-        <div class="alert alert-success" th:if="${message} != null" th:text="${message}"></div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+        </div>
+        <div class="alert alert-danger shadow" th:if="${error} != null" th:text="${error}"></div>
+        <div class="alert alert-success shadow" th:if="${message} != null" th:text="${message}"></div>
     </main>
 </body>
 </html>

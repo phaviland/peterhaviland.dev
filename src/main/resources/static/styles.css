@@ -1,6 +1,5 @@
 .navbar {
     margin-bottom: 1rem;
-    text-shadow: 1px 1px 1px lightgray;
 }
 
 @media (min-width: 800px) {
@@ -37,6 +36,10 @@
     white-space: pre-wrap;
 }
 
+.text-shadow{
+    text-shadow: 1px 1px 1px lightgray;
+}
+
 body {
-    background-color: #EFEFEF !important;
+    background-color: #FAFAFA !important;
 }

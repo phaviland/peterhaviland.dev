@@ -5,17 +5,18 @@
     <nav th:replace="fragments.html :: nav(title='Login')"></nav>
     <main class="container-fluid">
         <div class="block border rounded bg-white shadow">
-            <h2>Login</h2>
-            <form method="post" class="form-group" th:object="${loginForm}">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="sr-only" for="inlineFormInput">Username</label>
-                        <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="text" name="username" placeholder="username" th:value="*{username}" required>
+            <form method="post" th:object="${loginForm}">
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">Username</label>
+                    <div class="col-sm-10">
+                        <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control' : 'form-control'" type="text" name="username" placeholder="Username" th:value="*{username}" id="username" required>
                         <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">invalid username</div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label class="sr-only" for="inlineFormInput">Password</label>
-                        <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control mb-2' : 'form-control mb-2'" type="password" name="password" placeholder="password" required>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control' : 'form-control'" type="password" name="password" placeholder="Password" id="password" required>
                         <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
                     </div>
                 </div>

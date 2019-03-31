@@ -4,24 +4,27 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Login')"></nav>
     <main class="container-fluid">
-        <div class="block border rounded bg-white shadow">
-            <form method="post" th:object="${loginForm}">
-                <div class="form-group row">
-                    <label for="username" class="col-sm-2 col-form-label">Username</label>
-                    <div class="col-sm-10">
-                        <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control' : 'form-control'" type="text" name="username" placeholder="Username" th:value="*{username}" id="username" required>
-                        <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">invalid username</div>
+        <div class="card shadow">
+            <div class="card-header text-center">Login</div>
+            <div class="card-body">
+                <form method="post" th:object="${loginForm}">
+                    <div class="form-group row">
+                        <label for="username" class="col-sm-2 col-form-label">Username</label>
+                        <div class="col-sm-10">
+                            <input th:class="${#fields.hasErrors('username')} ? 'is-invalid form-control' : 'form-control'" type="text" name="username" placeholder="Username" th:value="*{username}" id="username" required>
+                            <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">invalid username</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
-                        <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control' : 'form-control'" type="password" name="password" placeholder="Password" id="password" required>
-                        <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control' : 'form-control'" type="password" name="password" placeholder="Password" id="password" required>
+                            <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}">invalid password</div>
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-            </form>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+            </div>
         </div>
         <div class="alert alert-danger shadow" th:if="${error} != null" th:text="${error}"></div>
     </main>

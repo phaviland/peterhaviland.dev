@@ -4,20 +4,23 @@
 <body>
     <nav th:replace="fragments.html :: nav(title='Compose')"></nav>    
     <main class="container-fluid">
-        <div class="block border rounded bg-white shadow">
-            <form method="post" th:object="${composeForm}">
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input th:class="${#fields.hasErrors('subject')} ? 'is-invalid form-control' : 'form-control'" type="text" name="subject" placeholder="Subject" th:value="*{subject}" id="subject" required>
-                    <div th:if="${#fields.hasErrors('subject')}" class="invalid-feedback" th:errors="*{subject}">invalid subject</div>
-                </div>
-                <div class="form-group">
-                    <label for="body">Body</label>
-                    <textarea th:class="${#fields.hasErrors('body')} ? 'is-invalid form-control' : 'form-control'" rows="10" type="text" name="body" placeholder="Body" th:text="*{body}" id="body" required></textarea>
-                    <div th:if="${#fields.hasErrors('body')}" class="invalid-feedback" th:errors="*{body}">invalid body</div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Publish</button>
-            </form>
+    	<div class="card shadow">
+            <div class="card-header text-center">Compose</div>
+            <div class="card-body">
+                <form method="post" th:object="${composeForm}">
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input th:class="${#fields.hasErrors('subject')} ? 'is-invalid form-control' : 'form-control'" type="text" name="subject" placeholder="Subject" th:value="*{subject}" id="subject" required>
+                        <div th:if="${#fields.hasErrors('subject')}" class="invalid-feedback" th:errors="*{subject}">invalid subject</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="body">Body</label>
+                        <textarea th:class="${#fields.hasErrors('body')} ? 'is-invalid form-control' : 'form-control'" rows="10" type="text" name="body" placeholder="Body" th:text="*{body}" id="body" required></textarea>
+                        <div th:if="${#fields.hasErrors('body')}" class="invalid-feedback" th:errors="*{body}">invalid body</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Publish</button>
+                </form>
+            </div>
         </div>
         <div class="alert alert-danger shadow" th:if="${error} != null" th:text="${error}"></div>    
     </main>

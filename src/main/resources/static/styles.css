@@ -23,6 +23,18 @@
     margin-bottom: 2rem;
 }
 
+.card-header {
+    padding: .75rem 1rem !important;
+}
+
+.card-body {
+    padding: 1rem !important;
+}
+
+.card {
+    margin-bottom: 2rem !important;
+}
+
 .alert {
     margin-bottom: 2rem !important;
 }

@@ -46,6 +46,7 @@
 .article-body {
     margin-top: 1rem;
     white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .text-shadow{

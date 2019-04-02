@@ -55,6 +55,7 @@ public class SiteController {
         response.addHeader("X-Content-Type-Options", "nosniff");
         response.addHeader("X-Frame-Options", "DENY");
         response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("Cache-Control", "no-cache");
     }
     
     @ModelAttribute
@@ -145,24 +146,26 @@ public class SiteController {
     
     @GetMapping(value="/blog/posts/{id}")
     public ModelAndView retrievePostById(@PathVariable("id") int id, Model model) {
-        Post post = postsDAO.getPost(id);
-        if (post == null) {
+        List<Post> posts = postsDAO.getPost(id);
+        if (posts.isEmpty()) {
             RedirectView view = new RedirectView("/blog", true);
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
-        model.addAttribute("post", post);
+        Util.ConvertBBCodeToHTML(posts);
+        model.addAttribute("post", posts.get(0));
         return new ModelAndView("post");
     }
     
     @GetMapping(value="/blog/posts/{id}/edit")
     public ModelAndView retrievePostByIdForEdit(@PathVariable("id") int id, ComposeForm composeForm) {
-        Post post = postsDAO.getPost(id);
-        if (post == null) {
+        List<Post> posts = postsDAO.getPost(id);
+        if (posts.isEmpty()) {
             RedirectView view = new RedirectView("/blog", true);
             view.setExposeModelAttributes(false);
             return new ModelAndView(view);
         }
+        Post post = posts.get(0);
         composeForm.setSubject(post.getSubject());
         composeForm.setBody(post.getBody());
         return new ModelAndView("compose");
@@ -185,7 +188,6 @@ public class SiteController {
     @GetMapping(value="/blog/posts/{id}/delete")
     public ModelAndView deletePostById(@PathVariable("id") int id) {
         postsDAO.deletePost(id);
-        
         RedirectView view = new RedirectView("/blog", true);
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
@@ -194,6 +196,7 @@ public class SiteController {
     @GetMapping("/blog")
     public String blog(Model model) {
         List<Post> posts = postsDAO.getMostRecentPosts(properties.getPageSize());
+        Util.ConvertBBCodeToHTML(posts);
         model.addAttribute("posts", posts);
         model.addAttribute("startingPage", 1);
         return "blog";
@@ -202,6 +205,7 @@ public class SiteController {
     @RequestMapping(value="/blog/loadMorePosts", method=RequestMethod.POST)
     public String blogLoadMorePosts(@RequestParam int minArticleId, Model model) {
         List<Post> posts = postsDAO.getPosts(minArticleId, properties.getPageSize());
+        Util.ConvertBBCodeToHTML(posts);
         model.addAttribute("posts", posts);
         return "blog :: articles";
     }
@@ -209,6 +213,7 @@ public class SiteController {
     @GetMapping("/blog/{page}")
     public String blogAtSpecifiedPage(@PathVariable("page") int page, Model model) {
         List<Post> posts = postsDAO.getMostRecentPosts(properties.getPageSize()*page);
+        Util.ConvertBBCodeToHTML(posts);
         model.addAttribute("posts", posts);
         model.addAttribute("startingPage", page);
         return "blog";

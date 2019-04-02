@@ -32,14 +32,15 @@ $(function () {
     $('#loadMorePosts').click(function() {
         loadMorePosts();
     });
-})
-
-/*
-var ajaxPending = false;
-$(window).scroll(function() { 
-    if (!ajaxPending && $(window).scrollTop() >= $(document).height() - $(window).height() - 50) {
-        ajaxPending = true;
-        loadMorePosts();
+    
+    var textarea = document.getElementById('body');
+    if (textarea != null) {
+        sceditor.create(textarea, {
+            format: 'bbcode',
+            style: 'minified/themes/content/default.min.css',
+            toolbar: 'bold,italic,underline,removeformat,link,unlink,code,image',
+            width: '100%',
+            resizeWidth: 'False'
+        });
     }
-});
-*/
+})

@@ -22,13 +22,9 @@ public class PostsDAO {
         datastore.save(post);
     }
     
-    public Post getPost(int id) {
+    public List<Post> getPost(int id) {
         Query<Post> query = datastore.createQuery(Post.class);
-        Iterator<Post> iterator = query.filter("_id", id).fetch();
-        if (iterator.hasNext())
-            return iterator.next();
-        else
-            return null;
+        return query.filter("_id", id).asList();
     }
     
     public List<Post> getMostRecentPosts(int numberOfPosts) {

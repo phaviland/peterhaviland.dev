@@ -10,7 +10,7 @@ public class ComposeForm {
     String subject;
     
     @NotNull
-    @Size(min=1, max=1000)
+    @Size(min=1, max=10000)
     String body;
 
     public String getSubject() {

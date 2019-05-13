@@ -19,3 +19,6 @@ An environment variable is needed for the MongoDB connection string: (Variable=C
 ```
 mvn clean package -P prod
 ```
+
+## Infrastructure
+Hosted on AWS Elastic Beanstalk.

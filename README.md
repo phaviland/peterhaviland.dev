@@ -1,5 +1,5 @@
 # PeterHaviland.dev
-This my personal website.
+This is my personal website.
 
 ## Stack
 **Web Framework:** Spring MVC  
